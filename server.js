@@ -7,6 +7,14 @@ app.use(logger('dev'));
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cribl';
 
+// Logging middleware - dump request body to console
+app.use((req, res, next) => {
+    if (req.body && Object.keys(req.body).length > 0) {
+        console.log(`Request body: ${JSON.stringify(req.body)}`);
+    }
+    return next();
+});
+
 const requireValidJWT = (req, res, next) => {
     if (req.headers?.authorization) {
         // Trim "Bearer" preamble
